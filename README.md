@@ -2,7 +2,7 @@
 
 ## Table of contents
 
-- [Chapter 1 - Clean Code](#chapter1)
+- [Capítulo 1 - Código Limpo](#chapter1)
 - [Chapter 2 - Meaningful Names](#chapter2)
 - [Chapter 3 - Functions](#chapter3)
 - [Chapter 4 - Comments](#chapter4)
@@ -21,47 +21,47 @@
 - [Chapter 17 - Smells and Heuristics](#chapter17)
 
 <a name="chapter1">
-<h1>Chapter 1 -  Clean Code</h1>
+<h1>Capítulo 1 -  Código Limpo</h1>
 </a>
-This Book is about good programming. It's about how to write good code, and how to transform bad code into good code.
+Este livro é sobre boa programação. É sobre como escrever um bom código e como transformar um código ruim em um bom código.
 
-The code represents the detail of the requirements and the details cannot be ignored or abstracted. We may create languages that are closer to the requirements. We can create tools that help us parse and assemble those requirements into formal structures. But we will never eliminate necessary precision.
+O código representa o detalhe dos requisitos e os detalhes não podem ser ignorados ou abstraídos. Podemos criar linguagens mais próximas dos requisitos. Podemos criar ferramentas que nos ajudem a analisar e montar esses requisitos em estruturas formais. Mas nunca eliminaremos a precisão necessária.
 
-### Why write bad code?
+### Por que escrever código ruim?
 
-- Are you in a rush?
-- Do you try to go "fast"?
-- Do not you have time to do a good job?
-- Are you tired of work in the same program/module?
-- Does your Boss push you to finish soon?
+- Você está com pressa?
+- Você tenta ir "rápido"?
+- Você não tem tempo para fazer um bom trabalho?
+- Está cansado de trabalhar no mesmo programa/módulo?
+- Seu chefe te pressiona para terminar logo?
 
-The previous arguments could create a swamp of senseless code.
+Os argumentos anteriores podem criar um pântano de código sem sentido.
 
-If you say "I will back to fix it later" you could fall in the [LeBlanc's law](https://en.wikipedia.org/wiki/Talk%3AList_of_eponymous_laws#Proposal_to_add_LeBlanc.27s_law) "Later equals never"
+Se você disser "Voltarei para consertar mais tarde", você pode cair na [lei de LeBlanc](https://en.wikipedia.org/wiki/Talk%3AList_of_eponymous_laws#Proposal_to_add_LeBlanc.27s_law) "Mais tarde é igual a nunca"
 
-You are a professional and the code is your responsibility. Let's analyze the following anecdote:
+Você é um profissional e o código é de sua responsabilidade. Vamos analisar a seguinte anedota:
 
-> What if you were a doctor and had a patient who demanded that you stop all the silly hand-washing in preparation for surgery because it was taking too much time? Clearly the patient is the boss; and yet the doctor should absolutely refuse to comply. Why? Because the doctor knows more than the patient about the risks of disease and infection. It would be unprofessional (never mind criminal) for the doctor to comply with the patient.
+> E se você fosse um médico e tivesse um paciente que exigisse que você parasse de lavar as mãos na preparação para a cirurgia porque estava demorando muito? Claramente, o paciente é o chefe; e, no entanto, o médico deve se recusar absolutamente a obedecer. Por que? Porque o médico sabe mais do que o paciente sobre os riscos de doenças e infecções. Seria antiprofissional (muito menos criminoso) o médico concordar com o paciente.
 
-So too it is unprofessional for programmers to bend to the will of managers who don’t understand the risks of making messes.
+Da mesma forma, não é profissional que os programadores se submetam à vontade de gerentes que não entendem os riscos de fazer bagunça.
 
-Maybe sometime you think in go fast to make the deadline. The only way to go fast is to keep the code as clean as possible at all times.
+Talvez em algum momento você pense em ir rápido para cumprir o prazo. A única maneira de ir rápido é manter o código o mais limpo possível o tempo todo.
 
-### What is Clean Code?
+### O que é Código Limpo?
 
-Each experienced programmer has his/her own definition of clean code, but something is clear, a clean code is a code that you can read easily. The clean code is code that has been taken care of.
+Cada programador experiente tem sua própria definição de código limpo, mas algo é claro, um código limpo é um código que você pode ler facilmente. O código limpo é o código que foi cuidado.
 
-In his book Uncle Bob says the next:
+Em seu livro, o tio Bob diz o seguinte:
 
-> Consider this book a description of the Object Mentor School of Clean Code. The techniques and teachings within are the way that we practice our art. We are willing to claim that if you follow these teachings, you will enjoy the benefits that we have enjoyed, and you will learn to write code that is clean and professional. But don’t make the mistake of thinking that we are somehow “right” in any absolute sense. There are other schools and other masters that have just as much claim to professionalism as we. It would behoove you to learn from them as well.
+> Considere este livro uma descrição da "Object Mentor School of Clean Code". As técnicas e ensinamentos contidos são a forma como praticamos nossa arte. Estamos dispostos a afirmar que, se você seguir esses ensinamentos, desfrutará dos benefícios que desfrutamos e aprenderá a escrever códigos limpos e profissionais. Mas não cometa o erro de pensar que estamos de alguma forma “certos” em qualquer sentido absoluto. Existem outras escolas e outros mestres que reivindicam tanto profissionalismo quanto nós. Caberia a você aprender com eles também.
 
-### The boy Scout Rule
+### A regra do escoteiro
 
-It’s not enough to write the code well. The code has to be kept clean over time. We have all seen code rot and degrade as time passes. So we must take an active role in preventing this degradation.
+Não basta escrever bem o código. O código deve ser mantido limpo ao longo do tempo. Todos nós vimos o código apodrecer e degradar com o passar do tempo. Portanto, devemos assumir um papel ativo na prevenção dessa degradação.
 
-It's a good practice apply the [Boy Scout Rule](http://programmer.97things.oreilly.com/wiki/index.php/The_Boy_Scout_Rule)
+É uma boa prática aplicar a [Regra do Escoteiro](http://programmer.97things.oreilly.com/wiki/index.php/The_Boy_Scout_Rule)
 
-> Always leave the campground cleaner than you found it.
+> Sempre deixe o acampamento mais limpo do que o encontrou.
 
 <a name="chapter2">
 <h1>Chapter 2 -  Meaningful Names</h1>
