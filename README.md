@@ -3,7 +3,7 @@
 ## Table of contents
 
 - [Capítulo 1 - Código Limpo](#chapter1)
-- [Chapter 2 - Meaningful Names](#chapter2)
+- [Capítulo 2 - Nomes Significativos](#chapter2)
 - [Chapter 3 - Functions](#chapter3)
 - [Chapter 4 - Comments](#chapter4)
 - [Chapter 5 - Formatting](#chapter5)
@@ -64,115 +64,115 @@ Não basta escrever bem o código. O código deve ser mantido limpo ao longo do 
 > Sempre deixe o acampamento mais limpo do que o encontrou.
 
 <a name="chapter2">
-<h1>Chapter 2 -  Meaningful Names</h1>
+<h1>Capítulo 2 - Nomes Significativos</h1>
 </a>
 
-Names are everywhere in software. Files, directories, variables functions, etc. Because we do so much of it. We have better do it well.
+Os nomes estão por toda parte no software. Arquivos, diretórios, variáveis, funções, etc. Porque fazemos muito disso. É melhor fazê-lo bem.
 
-### Use Intention-Revealing Names
+### Use nomes reveladores de intenções
 
-It is easy to say that names reveal intent. Choosing good names takes time, but saves more than it takes. So take care with your names and change them when you find better ones.
+É fácil dizer que nomes revelam intenções. Escolher bons nomes leva tempo, mas economiza mais do que leva. Portanto, tome cuidado com seus nomes e troque-os quando encontrar nomes melhores.
 
-The name of a variable, function or class, should answer all the big questions. It should tell you why it exists, what it does, and how is used. **If a name requires a comment, then the name does not reveals its intent**.
+O nome de uma variável, função ou classe deve responder a todas as grandes questões. Deve dizer por que existe, o que faz e como é usado. **Se um nome exigir um comentário, o nome não revela sua intenção**.
 
-| Does not reveals intention       | Reveals intention       |
-| -------------------------------- | ----------------------- |
-| `int d; // elapsed time in days` | `int elapsedTimeInDays` |
+| Não revela intenção                 | Revela intenção            |
+| ----------------------------------- | -------------------------- |
+| `int d; // tempo decorrido em dias` | `int tempoDecorridoEmDias` |
 
-Choosing names that reveal intent can make much easier to understand and change code. Example:
+A escolha de nomes que revelem a intenção pode facilitar muito a compreensão e a alteração do código. Exemplo:
 
 ```java
 public List<int[]> getThem() {
-  List<int[]> list1 = new ArrayList<int[]>();
-  for (int[] x : theList)
+  List<int[]> lista1 = new ArrayList<int[]>();
+  for (int[] x : aLista)
     if (x[0] == 4)
-      list1.add(x);
-  return list1;
+      lista1.add(x);
+  return lista1;
 }
 ```
 
-This code is simple, but create many questions:
+Este código é simples, mas gera muitas dúvidas:
 
-1. What is the content of `theList`?
-2. What is the significance of the item `x[0]` in the list?.
-3. Why we compare `x[0]` vs `4`?
-4. How would i use the returned list?
+1. Qual é o conteúdo de `aLista`?
+2. Qual é o significado do item `x[0]` na lista?.
+3. Por que comparamos `x[0]` vs `4`?
+4. Como eu usaria a lista retornada?
 
-The answers to these questions are not present in the code sample, but they could have been. Say that we’re working in a mine sweeper game. We can refactor the previous code as follows:
+As respostas a essas perguntas não estão presentes no exemplo de código, mas poderiam estar. Digamos que estamos trabalhando em um jogo de caça-minas. Podemos refatorar o código anterior da seguinte maneira:
 
 ```java
-public List<int[]> getFlaggedCells() {
-  List<int[]> flaggedCells = new ArrayList<int[]>();
-  for (int[] cell : gameBoard)
-    if (cell[STATUS_VALUE] == FLAGGED)
-      flaggedCells.add(cell);
-  return flaggedCells;
+public List<int[]> getCelulasSinalizadas() {
+  List<int[]> celulasSinalizadas = new ArrayList<int[]>();
+  for (int[] celula : tabuleiro)
+    if (celula[VALOR_ESTADO] == SINALIZADA)
+      celulasSinalizadas.add(celula);
+  return celulasSinalizadas;
 }
 ```
 
-Now we know the next information:
+Agora sabemos as próximas informações:
 
-1. `theList` represents the `gameBoard`
-2. `x[0]` represents a cell in the board and `4` represents a flagged cell
-3. The returned list represents the `flaggedCells`
+1. `aLista` representa o `tabuleiro`
+2. `x[0]` representa uma célula no tabuleiro e `4` representa uma célula sinalizada.
+3. A lista retornada representa as `celulasSinalizadas`
 
-Notice that the simplicity of the code has not changed. It still has exactly the same number of operators and constants, with exactly the same number of nesting levels. But the code has become much more explicit.
+Observe que a simplicidade do código não mudou. Ele ainda tem exatamente o mesmo número de operadores e constantes, com exatamente o mesmo número de níveis de aninhamento. Mas o código se tornou muito mais explícito.
 
-We can improve the code writing a simple class for cells instead of using an array of `ints`. It can include an **intention-revealing function** (called it `isFlagged`) to hide the magic numbers. It results in a new function of the function.
+Podemos melhorar o código escrevendo uma classe simples para células em vez de usar um array de `ints`. Ele pode incluir uma **função reveladora de intenções** (chamada de `estaSinalizada`) para ocultar os números mágicos. Isso resulta em uma nova função da função.
 
 ```java
-public List<Cell> getFlaggedCells() {
-  List<Cell> flaggedCells = new ArrayList<Cell>();
-  for (Cell cell : gameBoard)
-    if (cell.isFlagged())
-      flaggedCells.add(cell);
-  return flaggedCells;
+public List<Celula> getCelulasSinalizadas() {
+  List<Celula> flaggedCells = new ArrayList<Celula>();
+  for (Celula celula : tabuleiro)
+    if (celula.estaSinalizada())
+      celulasSinalizadas.add(celula);
+  return celulasSinalizadas;
 }
 ```
 
-### Avoid Disinformation
+### Evite Desinformação
 
-Programmers must avoid leaving false clues that obscure the meaning of code. We should avoid words whose entrenched meaning vary from our intended meaning.
+Os programadores devem evitar deixar pistas falsas que obscureçam o significado do código. Devemos evitar palavras cujo significado determinado varie de nosso significado pretendido.
 
-Do not refer to a grouping of accounts as an `accountList` unless it's actually a `List`. The word `List` means something specific to programmers. If the container holding the accounts is not actually a List, it may lead to false conclusions. So `accountGroup` or `bunchOfAccounts` or just plain `accounts` would be better.
+Não se refira a um agrupamento de contas como `listaDeContas`, a menos que seja realmente uma `Lista`. A palavra `Lista` significa algo específico para programadores. Se o contêiner que contém as contas não for realmente uma lista, isso pode levar a conclusões falsas. Então `grupoDeContas` ou `monteDeContas` ou simplesmente `contas` seria melhor.
 
-Beware of using names which vary in small ways. How long does it take to spot the subtle difference between a `XYZControllerForEfficientHandlingOfStrings` in one module and, somewhere a little more distant, `XYZControllerForEfficientStorageOfStrings`? The words have frightfully similar shapes
+Cuidado com o uso de nomes que variam em pequenas formas. Quanto tempo leva para identificar a diferença sutil entre um `XYZControllerForEfficientHandlingOfStrings` em um módulo e, em algum lugar um pouco mais distante, `XYZControllerForEfficientStorageOfStrings`? As palavras têm formas assustadoramente semelhantes
 
-### Make Meaningful Distinctions
+### Faça distinções significativas
 
-Programmers create problems for themselves when they write code solely to satisfy a compiler or interpreter. For example because you can't use the same name to refer two different things in the same scope, you might be tempted to change one name in an arbitrary way. Sometimes this is done by misspelling one, leading to the surprising situation where correcting spelling errors leads to an inability to compile. Example, you create the variable `klass`because the name `class` was used for something else.
+Os programadores criam problemas para si mesmos quando escrevem código apenas para satisfazer um compilador ou interpretador. Por exemplo, porque você não pode usar o mesmo nome para referir duas coisas diferentes no mesmo escopo, você pode ser tentado a mudar um nome de forma arbitrária. Às vezes, isso é feito com erros de ortografia, levando a uma situação surpreendente em que corrigir erros de ortografia leva à incapacidade de compilar. Exemplo, você cria a variável `klasse` porque o nome `classe` foi usado para outra coisa.
 
-In the next function, the arguments are noninformative, `a1` and `a2` doesn't provide clues to the author intention.
+Na próxima função, os argumentos não são informativos, `a1` e `a2` não fornecem pistas sobre a intenção do autor.
 
 ```java
-public static void copyChars(char a1[], char a2[]) {
+public static void copiarCaracteres(char a1[], char a2[]) {
   for (int i = 0; i < a1.length; i++) {
     a2[i] = a1[i];
   }
 }
 ```
 
-We can improve the code selecting more explicit argument names:
+Podemos melhorar o código selecionando nomes de argumentos mais explícitos:
 
 ```java
-public static void copyChars(char source[], char destination[]) {
+public static void copiarCaracteres(char origem[], char destino[]) {
   for (int i = 0; i < source.length; i++) {
-    destination[i] = source[i];
+    destino[i] = origem[i];
   }
 }
 ```
 
-Noise words are another meaningless distinction. Imagine that you have a Product class. If you have another called `ProductInfo` or `ProductData`, you have made the names different without making them mean anything different. Info and Data are indistinct noise words like a, an, and the.
+As palavras barulhentas são outra distinção sem sentido. Imagine que você tenha uma classe Produto. Se você tiver outro chamado `InfoProduto` ou `DadosProduto`, você fez os nomes diferentes sem fazê-los significar algo diferente. Informações e dados são palavras de ruído indistintas como (no inglês) a, an e the.
 
-Noise words are redundant. The word variable should never appear in a variable name. The word table should never appear in a table name.
+Palavras de ruído são redundantes. A palavra variável nunca deve aparecer em um nome de variável. A palavra tabela nunca deve aparecer no nome de uma tabela.
 
-### Use Pronounceable Names
+### Use nomes pronunciáveis
 
-Imagine you have the variable `genymdhms` (Generation date, year, month, day, hour, minute and second) and imagine a conversation where you need talk about this variable calling it "gen why emm dee aich emm ess". You can consider convert a class like this:
+Imagine que você tem a variável `geramdhms` (data de geração, ano, mês, dia, hora, minuto e segundo) e imagine uma conversa onde você precisa falar sobre essa variável chamando-a de "gera eme de agá eme esse". Você pode considerar converter uma classe como esta:
 
 ```java
 class DtaRcrd102 {
-  private Date genymdhms;
+  private Date geramdhms;
   private Date modymdhms;
   private final String pszqint = "102";
   /* ... */
@@ -182,91 +182,92 @@ class DtaRcrd102 {
 To
 
 ```java
-class Customer {
-  private Date generationTimestamp;
-  private Date modificationTimestamp;;
-  private final String recordId = "102";
+class Cliente {
+  private Date geracaoDataEHora;
+  private Date modificacaoDataEHora;
+  private final String idRegistro = "102";
   /* ... */
 };
 ```
 
-### Use Searchable Names
+### Use nomes pesquisáveis
 
-Single-letter names and numeric constants have a particular problem in that they are not easy to locate across a body of text.
+Nomes de uma única letra e constantes numéricas têm um problema específico, pois não são fáceis de localizar em um corpo de texto.
 
-### Avoid Encoding
+### Evitar Codificação
 
-We have enough encodings to deal with without adding more to our burden. Encoding type or scope information into names simply adds an extra burden of deciphering. Encoded names are seldom pronounceable and are easy to mis-type. An example of this, is the use of the [Hungarian Notation](https://en.wikipedia.org/wiki/Hungarian_notation) or the use of member prefixes.
+Temos codificações suficientes para lidar sem adicionar mais ao nosso fardo. Codificar informações de tipo ou escopo em nomes simplesmente adiciona uma carga extra de decifração. Nomes codificados raramente são pronunciáveis e são fáceis de digitar incorretamente. Um exemplo disso é o uso da [Notação Húngara](https://en.wikipedia.org/wiki/Hungarian_notation) ou o uso de prefixos de membros.
+#### Interfaces e Implementações
 
-#### Interfaces and Implementations
+Às vezes, esses são um caso especial para codificações. Por exemplo, digamos que você esteja construindo uma FÁBRICA ABSTRATA para a criação de formas. Esta fábrica será uma interface e será implementada por uma classe concreta. O que você deve nomeá-los? `IFabricaDeFormas` e `FabricaDeFormas`? É preferível deixar as interfaces sem adornos. Não quero que meus usuários saibam que estou entregando uma interface a eles. Eu só quero que eles saibam que é uma `FabricaDeFormas`. Portanto, entre codificar a interface ou a implementação, escolho a implementação. Chamá-lo `FabricaDeFormasImp`, ou mesmo o hediondo `CFabricaDeFormas`, é preferível a codificar a interface.
 
-These are sometimes a special case for encodings. For example, say you are building an ABSTRACT FACTORY for the creation of shapes. This factory will be an interface and will be implemented by a concrete class. What should you name them? `IShapeFactory` and `ShapeFactory`? Is preferable to leave interfaces unadorned.I don’t want my users knowing that I’m handing them an interface. I just want them to know that it’s a `ShapeFactory`. So if I must encode either the interface or the implementation, I choose the implementation. Calling it `ShapeFactoryImp`, or even the hideous `CShapeFactory`, is preferable to encoding the interface.
+### Evite mapas mentais
 
-### Avoid Mental Mapping
+Os leitores não deveriam ter que traduzir mentalmente seus nomes para outros nomes que eles já conhecem.
 
-Readers shouldn't have to mentally translate your names into other names they already know.
+Uma diferença entre um programador inteligente e um programador profissional é que o profissional entende que a clareza é fundamental. Os profissionais usam seus poderes para o bem e escrevem códigos que outros possam entender.
 
-One difference between a smart programmer and a professional programmer is that the professional understands that clarity is king. Professionals use their powers for good and write code that others can understand.
+### Nomes de classe
 
-### Class Names
+Classes e objetos devem ter nomes de substantivos ou frases de substantivos como `Cliente`, `PaginaWiki`, `Conta` e `ConversorDeEnderecos`. Evite palavras como `Gerente`, `Processador`, `Dados` ou `Info` no nome de uma classe. Um nome de classe não deve ser um verbo.
 
-Classes and objects should have noun or noun phrase names like `Customer`, `WikiPage`, `Account`, and `AddressParser`. Avoid words like `Manager`,`Processor`, `Data`, or `Info` in the name of a class. A class name should not be a verb.
+### Nomes de métodos
 
-### Method Names
+Os métodos devem ter nomes de verbos ou frases verbais como `postarPagamento`, `apagarPagina` ou `salvar`. Acessadores, modificadores e predicados devem ser nomeados por seus valores e prefixados com get, set e is de acordo com o padrão javabean.
 
-Methods should have verb or verb phrase names like `postPayment`, `deletePage` or `save`. Accessors, mutators, and predicates should be named for their value and prefixed with get, set, and is according to the javabean standard.
-
-When constructors are overloaded, use static factory methods with names that describe the arguments. For example:
-
-```java
-Complex fulcrumPoint = Complex.FromRealNumber(23.0);
-```
-
-Is generally better than
+Quando os construtores estiverem sobrecarregados, use "factory methods" estáticos com nomes que descrevam os argumentos. Por exemplo:
 
 ```java
-Complex fulcrumPoint = new Complex(23.0);
+Complex pontoDeApoio = Complex.DoNumeroReal(23.0);
 ```
 
-Consider enforcing their use by making the corresponding constructors private.
+Geralmente é melhor do que
 
-### Don't Be Cute
+```java
+Complex pontoDeApoio = new Complex(23.0);
+```
 
-| Cute name         | Clean name    |
-| ----------------- | ------------- |
-| `holyHandGranade` | `deleteItems` |
-| `whack`           | `kill`        |
-| `eatMyShorts`     | `abort`       |
+Considere impor seu uso tornando privados os construtores correspondentes.
 
-### Pick one word per concept
+### Não seja bonito
 
-Pick one word for one abstract concept and stick with it. For instance, it’s confusing to have fetch, retrieve, and get as equivalent methods of different classes.
+| Nome bonito           | Nome limpo    |
+| --------------------- | ------------- |
+| `granadaDeMaoSagrada` | `deleteItems` |
+| `castigar`            | `matar`       |
+| `comaMeusShorts`      | `abortar`     |
 
-### Don’t Pun
+### Escolha uma palavra por conceito
 
-Avoid using the same word for two purposes. Using the same term for two different ideas is essentially a pun.
+Escolha uma palavra para um conceito abstrato e fique com ela. Por exemplo, é confuso ter fetch, retrieve e get como métodos equivalentes de diferentes classes.
 
-Example: in a class use `add` for create a new value by adding or concatenating two existing values and in another class use `add` for put a simple parameter in a collection, it's a better options use a name like `insert` or `append` instead.
+### Não faça trocadilhos
 
-### Use Solution Domain Names
+Evite usar a mesma palavra para dois propósitos. Usar o mesmo termo para duas ideias diferentes é essencialmente um trocadilho.
 
-Remember that the people who read your code will be programmers. So go ahead and use computer science (CS) terms, algorithm names, pattern names, math terms, and so forth.
+Exemplo: em uma classe use `add` para criar um novo valor adicionando ou concatenando dois valores existentes e em outra classe use `add` para colocar um parâmetro simples em uma coleção, é uma opção melhor usar um nome como `insert` ou `append` em vez disso.
 
-### Use Problem Domain Names
+### Use nomes de domínio da solução
 
-When there is no “programmer-eese” for what you’re doing, use the name from the problem domain. At least the programmer who maintains your code can ask a domain expert what it means.
+Lembre-se de que as pessoas que lerão seu código serão programadores. Portanto, vá em frente e use termos de ciência da computação, nomes de algoritmos, nomes de padrões, termos matemáticos e assim por diante.
 
-### Add Meaningful context
+### Use nomes de domínio de negócio
 
-There are a few names which are meaningful in and of themselves—most are not. Instead, you need to place names in context for your reader by enclosing them in well-named classes, functions, or namespaces. When all else fails, then prefixing the name may be necessary as a last resort
+Quando você estiver trabalhando em questões de negócio, use o nome do domínio de negócio. Pelo menos o programador que mantém seu código pode perguntar a um especialista em regras de negócio o que isso significa.
 
-Variables like: `firstName`, `lastName`, `street`, `city`, `state`. Taken together it's pretty clear that they form an address, but, what if you saw the variable state being used alone in a method?, you could add context using prefixes like: `addrState` at least readers will understand that the variable is part of a large structure. Of course, a better solution is to create a class named `Address` then even the compiler knows that the variables belong to a bigger concept
+Separar conceitos e soluções de negócio faz parte de ser um bom desenvolvedor e designer. O código que precisa se preocupar com os conceitos do negócio deve trazer o nome do negócio.
 
-### Don’t Add Gratuitous Context
+### Adicionar contexto significativo
 
-In an imaginary application called “Gas Station Deluxe,” it is a bad idea to prefix every class with GSD. Example: `GSDAccountAddress`
+Existem alguns nomes que são significativos por si mesmos - a maioria não é. Em vez disso, você precisa colocar os nomes no contexto para o seu leitor, colocando-os em classes, funções ou namespaces bem nomeados. Quando tudo mais falhar, prefixar o nome pode ser necessário como último recurso.
 
-Shorter names are generally better than longer ones, so long as they are clear. Add no more context to a name than is necessary.
+Variáveis como: `primeiroNome`, `ultimoNome`, `rua`, `cidade`, `estado`. Juntos, é bastante claro que eles formam um endereço, mas, e se você visse a variável state sendo usada sozinha em um método?, você poderia adicionar contexto usando prefixos como: `estadoEndereco` pelo menos os leitores entenderão que a variável faz parte de uma estrutura maior. Claro, uma solução melhor é criar uma classe chamada `Endereço`, assim até mesmo o compilador saberá que as variáveis pertencem a um conceito maior.
+
+### Não adicione contexto desnecessário
+
+Em um aplicativo imaginário chamado “Posto De Gasolina De luxo”, é uma má ideia prefixar todas as classes com PDGDL. Exemplo: `PDGDLEnderecoDaConta`.
+
+Nomes mais curtos geralmente são melhores do que nomes mais longos, desde que sejam claros. Não adicione mais contexto a um nome do que o necessário.
 
 <a name="chapter3">
 <h1>Chapter 3 -  Functions</h1>
