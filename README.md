@@ -67,7 +67,7 @@ Não basta escrever bem o código. O código deve ser mantido limpo ao longo do 
 <h1>Capítulo 2 - Nomes Significativos</h1>
 </a>
 
-Os nomes estão por toda parte no software. Arquivos, diretórios, variáveis, funções, etc. Porque fazemos muito disso. É melhor fazê-lo bem.
+Os nomes estão por toda parte no software. Arquivos, diretórios, variáveis, funções, etc. Porque fazemos muito disso, é melhor fazê-lo bem.
 
 ### Use nomes reveladores de intenções
 
@@ -95,10 +95,10 @@ Este código é simples, mas gera muitas dúvidas:
 
 1. Qual é o conteúdo de `aLista`?
 2. Qual é o significado do item `x[0]` na lista?.
-3. Por que comparamos `x[0]` vs `4`?
+3. Por que comparamos `x[0]` com o valor `4`?
 4. Como eu usaria a lista retornada?
 
-As respostas a essas perguntas não estão presentes no exemplo de código, mas poderiam estar. Digamos que estamos trabalhando em um jogo de caça-minas. Podemos refatorar o código anterior da seguinte maneira:
+As respostas a essas perguntas não estão presentes no exemplo de código, mas poderiam estar. Digamos que estamos trabalhando em um jogo de campo-minado, podemos refatorar o código anterior da seguinte maneira:
 
 ```java
 public List<int[]> getCelulasSinalizadas() {
@@ -118,11 +118,11 @@ Agora sabemos as próximas informações:
 
 Observe que a simplicidade do código não mudou. Ele ainda tem exatamente o mesmo número de operadores e constantes, com exatamente o mesmo número de níveis de aninhamento. Mas o código se tornou muito mais explícito.
 
-Podemos melhorar o código escrevendo uma classe simples para células em vez de usar um array de `ints`. Ele pode incluir uma **função reveladora de intenções** (chamada de `estaSinalizada`) para ocultar os números mágicos. Isso resulta em uma nova função da função.
+Podemos melhorar o código escrevendo uma classe simples para células em vez de usar um array de `ints`. Ela pode incluir uma **função reveladora de intenções** (chamada de `estaSinalizada`) para ocultar os números mágicos. Isso resulta em uma nova função da função.
 
 ```java
 public List<Celula> getCelulasSinalizadas() {
-  List<Celula> flaggedCells = new ArrayList<Celula>();
+  List<Celula> celulasSinalizadas = new ArrayList<Celula>();
   for (Celula celula : tabuleiro)
     if (celula.estaSinalizada())
       celulasSinalizadas.add(celula);
@@ -136,11 +136,11 @@ Os programadores devem evitar deixar pistas falsas que obscureçam o significado
 
 Não se refira a um agrupamento de contas como `listaDeContas`, a menos que seja realmente uma `Lista`. A palavra `Lista` significa algo específico para programadores. Se o contêiner que contém as contas não for realmente uma lista, isso pode levar a conclusões falsas. Então `grupoDeContas` ou `monteDeContas` ou simplesmente `contas` seria melhor.
 
-Cuidado com o uso de nomes que variam em pequenas formas. Quanto tempo leva para identificar a diferença sutil entre um `XYZControllerForEfficientHandlingOfStrings` em um módulo e, em algum lugar um pouco mais distante, `XYZControllerForEfficientStorageOfStrings`? As palavras têm formas assustadoramente semelhantes
+Cuidado com o uso de nomes que variam em pequenas formas. Quanto tempo leva para identificar a diferença sutil entre um `XYZControllerForEfficientHandlingOfStrings` em um módulo e, em algum lugar um pouco mais distante, `XYZControllerForEfficientStorageOfStrings`? As palavras têm formas assustadoramente semelhantes.
 
 ### Faça distinções significativas
 
-Os programadores criam problemas para si mesmos quando escrevem código apenas para satisfazer um compilador ou interpretador. Por exemplo, porque você não pode usar o mesmo nome para referir duas coisas diferentes no mesmo escopo, você pode ser tentado a mudar um nome de forma arbitrária. Às vezes, isso é feito com erros de ortografia, levando a uma situação surpreendente em que corrigir erros de ortografia leva à incapacidade de compilar. Exemplo, você cria a variável `klasse` porque o nome `classe` foi usado para outra coisa.
+Os programadores criam problemas para si mesmos, quando escrevem código apenas para satisfazer um compilador, ou interpretador. Por exemplo, porque você não pode usar o mesmo nome para referir duas coisas diferentes no mesmo escopo, você pode ser tentado a mudar um nome de forma arbitrária. Às vezes, isso é feito com erros de ortografia, levando a uma situação surpreendente em que corrigir erros de ortografia leva à incapacidade de compilar. Exemplo, você cria a variável `klasse` porque o nome `classe` foi usado para outra coisa.
 
 Na próxima função, os argumentos não são informativos, `a1` e `a2` não fornecem pistas sobre a intenção do autor.
 
@@ -156,13 +156,13 @@ Podemos melhorar o código selecionando nomes de argumentos mais explícitos:
 
 ```java
 public static void copiarCaracteres(char origem[], char destino[]) {
-  for (int i = 0; i < source.length; i++) {
+  for (int i = 0; i < origem.length; i++) {
     destino[i] = origem[i];
   }
 }
 ```
 
-As palavras barulhentas são outra distinção sem sentido. Imagine que você tenha uma classe Produto. Se você tiver outro chamado `InfoProduto` ou `DadosProduto`, você fez os nomes diferentes sem fazê-los significar algo diferente. Informações e dados são palavras de ruído indistintas como (no inglês) a, an e the.
+As palavras barulhentas são outra distinção sem sentido. Imagine que você tenha uma classe Produto. Se você tiver outra chamada `InfoProduto` ou `DadosProduto`, você fez os nomes diferentes sem fazê-los significar algo diferente. Informações e dados são palavras de ruído indistintas como (no inglês) a, an e the.
 
 Palavras de ruído são redundantes. A palavra variável nunca deve aparecer em um nome de variável. A palavra tabela nunca deve aparecer no nome de uma tabela.
 
@@ -179,7 +179,7 @@ class DtaRcrd102 {
 };
 ```
 
-To
+Para
 
 ```java
 class Cliente {
@@ -196,10 +196,10 @@ Nomes de uma única letra e constantes numéricas têm um problema específico, 
 
 ### Evitar Codificação
 
-Temos codificações suficientes para lidar sem adicionar mais ao nosso fardo. Codificar informações de tipo ou escopo em nomes simplesmente adiciona uma carga extra de decifração. Nomes codificados raramente são pronunciáveis e são fáceis de digitar incorretamente. Um exemplo disso é o uso da [Notação Húngara](https://en.wikipedia.org/wiki/Hungarian_notation) ou o uso de prefixos de membros.
+Temos codificações suficientes para lidar sem adicionar mais ao nosso fardo. Codificar informações de tipo ou escopo em nomes, simplesmente adiciona uma carga extra de decifração. Nomes codificados raramente são pronunciáveis e são facilmente digitados incorretamente. Um exemplo disso é o uso da [Notação Húngara](https://en.wikipedia.org/wiki/Hungarian_notation) ou o uso de prefixos de membros.
 #### Interfaces e Implementações
 
-Às vezes, esses são um caso especial para codificações. Por exemplo, digamos que você esteja construindo uma FÁBRICA ABSTRATA para a criação de formas. Esta fábrica será uma interface e será implementada por uma classe concreta. O que você deve nomeá-los? `IFabricaDeFormas` e `FabricaDeFormas`? É preferível deixar as interfaces sem adornos. Não quero que meus usuários saibam que estou entregando uma interface a eles. Eu só quero que eles saibam que é uma `FabricaDeFormas`. Portanto, entre codificar a interface ou a implementação, escolho a implementação. Chamá-lo `FabricaDeFormasImp`, ou mesmo o hediondo `CFabricaDeFormas`, é preferível a codificar a interface.
+Às vezes, esses são um caso especial para codificações. Por exemplo, digamos que você esteja construindo uma FÁBRICA ABSTRATA para a criação de formas. Esta fábrica será uma interface e será implementada por uma classe concreta. Como você deve nomeá-los? `IFabricaDeFormas` e `FabricaDeFormas`? É preferível deixar as interfaces sem adornos. Não quero que meus usuários saibam que estou entregando uma interface a eles. Eu só quero que eles saibam que é uma `FabricaDeFormas`. Portanto, entre codificar a interface ou a implementação, escolho a implementação. Chamá-lo `FabricaDeFormasImp`, ou mesmo o hediondo `CFabricaDeFormas`, é preferível a codificar a interface.
 
 ### Evite mapas mentais
 
@@ -245,7 +245,7 @@ Escolha uma palavra para um conceito abstrato e fique com ela. Por exemplo, é c
 
 Evite usar a mesma palavra para dois propósitos. Usar o mesmo termo para duas ideias diferentes é essencialmente um trocadilho.
 
-Exemplo: em uma classe use `add` para criar um novo valor adicionando ou concatenando dois valores existentes e em outra classe use `add` para colocar um parâmetro simples em uma coleção, é uma opção melhor usar um nome como `insert` ou `append` em vez disso.
+Exemplo: em uma classe use `add` para criar um novo valor adicionando ou concatenando dois valores existentes, e em outra classe use `add` para colocar um parâmetro simples em uma coleção. É uma opção melhor usar um nome como `inserir` ou `acrescentar` em vez disso.
 
 ### Use nomes de domínio da solução
 
@@ -261,7 +261,7 @@ Separar conceitos e soluções de negócio faz parte de ser um bom desenvolvedor
 
 Existem alguns nomes que são significativos por si mesmos - a maioria não é. Em vez disso, você precisa colocar os nomes no contexto para o seu leitor, colocando-os em classes, funções ou namespaces bem nomeados. Quando tudo mais falhar, prefixar o nome pode ser necessário como último recurso.
 
-Variáveis como: `primeiroNome`, `ultimoNome`, `rua`, `cidade`, `estado`. Juntos, é bastante claro que eles formam um endereço, mas, e se você visse a variável state sendo usada sozinha em um método?, você poderia adicionar contexto usando prefixos como: `estadoEndereco` pelo menos os leitores entenderão que a variável faz parte de uma estrutura maior. Claro, uma solução melhor é criar uma classe chamada `Endereço`, assim até mesmo o compilador saberá que as variáveis pertencem a um conceito maior.
+Variáveis como: `primeiroNome`, `ultimoNome`, `rua`, `cidade`, `estado`, juntos, é bastante claro que eles formam um endereço. Mas, e se você visse a variável estado sendo usada sozinha em um método? Você poderia adicionar contexto usando prefixos como: `estadoEndereco`, pelo menos os leitores entenderão que a variável faz parte de uma estrutura maior. Claro, uma solução melhor é criar uma classe chamada `Endereço`, assim até mesmo o compilador saberá que as variáveis pertencem a um conceito maior.
 
 ### Não adicione contexto desnecessário
 
