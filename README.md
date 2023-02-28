@@ -4,7 +4,7 @@
 
 - [Capítulo 1 - Código Limpo](#chapter1)
 - [Capítulo 2 - Nomes Significativos](#chapter2)
-- [Chapter 3 - Functions](#chapter3)
+- [Capítulo 3 - Funções](#chapter3)
 - [Chapter 4 - Comments](#chapter4)
 - [Chapter 5 - Formatting](#chapter5)
 - [Chapter 6 - Objects and Data Structures](#chapter6)
@@ -270,94 +270,96 @@ Em um aplicativo imaginário chamado “Posto De Gasolina De luxo”, é uma má
 Nomes mais curtos geralmente são melhores do que nomes mais longos, desde que sejam claros. Não adicione mais contexto a um nome do que o necessário.
 
 <a name="chapter3">
-<h1>Chapter 3 -  Functions</h1>
+<h1>Capítulo 3 -  Funções</h1>
 </a>
 
-Functions are the first line of organization in any topic.
+As funções são a primeira linha de organização em qualquer tópico.
 
-### Small!!
 
-The first rule of functions is that they should be small. The second rule of functions is that they should be smaller than that.
+### Pequeno!!
 
-#### Blocks and Indenting
+A primeira regra das funções é que elas devem ser pequenas. A segunda regra das funções é que elas devem ser menores que isso.
 
-This implies that the blocks within `if` statements, `else` statements, `while` statements, and so on should be one line long. Probably that line should be a function call. Not only does this keep the enclosing function small, but also adds documentary value because the function called within the block can have a nicely descriptive name.
+#### Blocos e recuo
 
-This also implies that functions should not be large enough to hold nested structures. Therefore, the indent level of a function should not be greater than one or two. This, of course, makes the functions easy to read and understand.
+Isso implica que os blocos dentro das instruções if, else, while e assim por diante devem ter o comprimento de uma linha. Provavelmente essa linha deve ser uma chamada de função. Isso não apenas mantém a função envolvente pequena, mas também adiciona valor documental porque a função chamada dentro do bloco pode ter um nome bem descritivo.
 
-### Do One Thing
+Isso também implica que as funções não devem ser grandes o suficiente para conter estruturas aninhadas. Portanto, o nível de recuo de uma função não deve ser maior que um ou dois. Isso, é claro, torna as funções fáceis de ler e entender.
 
-**FUNCTIONS SHOULD DO ONE THING. THEY SHOULD DO IT WELL. THEY SHOULD DO IT ONLY.**
+### Faça uma coisa
 
-#### Sections within Functions
+**AS FUNÇÕES DEVEM FAZER UMA COISA. ELES DEVEM FAZER BEM. SÓ DEVEM FAZER ISSO.**
 
-If you have a function divided in sections like _declarations_, _initialization_ etc, it's a obvious symptom of the function is doing more than one thing. Functions that do one thing cannot be reasonably divided into sections.
+#### Seções dentro de funções
 
-### One Level of Abstraction per Function
+Se você tem uma função dividida em seções como declarações, inicialização, etc., é um sintoma óbvio de que a função está fazendo mais de uma coisa. Funções que fazem uma coisa não podem ser razoavelmente divididas em seções.
 
-In order to make sure our functions are doing "one thing", we need to make sure that the statements within our function are all at the same level of abstraction.
+### Um nível de abstração por função
 
-#### Reading Code from Top to Bottom: _The Stepdown Rule_
+Para garantir que nossas funções estejam fazendo "uma coisa", precisamos garantir que as instruções dentro de nossa função estejam todas no mesmo nível de abstração.
 
-We want the code to read like a top-down narrative. 5 We want every function to be followed by those at the next level of abstraction so that we can read the program, descending one level of abstraction at a time as we read down the list of functions.
+#### Lendo o código de cima para baixo: _a regra Stepdown_
 
-To say this differently, we want to be able to read the program as though it were a set
-of TO paragraphs, each of which is describing the current level of abstraction and referencing subsequent TO paragraphs at the next level down.
+Queremos que o código seja lido como uma narrativa de cima para baixo. 5 Queremos que cada função seja seguida por aquelas no próximo nível de abstração para que possamos ler o programa, descendo um nível de abstração de cada vez enquanto lemos a lista de funções.
+
+Para dizer isso de forma diferente, queremos ser capazes de ler o programa como se fosse um conjunto de parágrafos TO, cada um dos quais descrevendo o nível atual de abstração e referenciando os parágrafos TO subsequentes no próximo nível abaixo.
 
 ```
-- To include the setups and teardowns, we include setups, then we include the test page content, and then we include the teardowns.
-- To include the setups, we include the suite setup if this is a suite, then we include the regular setup.
-- To include the suite setup, we search the parent hierarchy for the “SuiteSetUp” page and add an include statement with the path of that page.
-- To search the parent...
+- Para incluir as configurações e desmontagens, incluímos as configurações, depois incluímos o conteúdo da página de teste e, em seguida, incluímos as desmontagens.
+- Para incluir as configurações, incluímos a configuração da suíte, se for uma suíte, depois incluímos a configuração normal.
+- Para incluir a configuração do conjunto, procuramos na hierarquia pai a página "SuiteSetUp" e adicionamos uma declaração de inclusão com o caminho dessa página.
+- Para procurar o pai...
 ```
 
-It turns out to be very difficult for programmers to learn to follow this rule and write functions that stay at a single level of abstraction. But learning this trick is also very important. It is the key to keeping functions short and making sure they do “one thing.” Making the code read like a top-down set of TO paragraphs is an effective technique for keeping the abstraction level consistent.
+Acontece que é muito difícil para os programadores aprender a seguir essa regra e escrever funções que ficam em um único nível de abstração. Mas aprender esse truque também é muito importante. É a chave para manter as funções curtas e garantir que elas façam “uma coisa”. Fazer o código ser lido como um conjunto de parágrafos TO de cima para baixo é uma técnica eficaz para manter o nível de abstração consistente.
 
-### Switch Statements
+### Declarações de switch
 
-It’s hard to make a small switch statement. 6 Even a switch statement with only two cases is larger than I’d like a single block or function to be. It’s also hard to make a switch statement that does one thing. By their nature, switch statements always do N things. Unfortunately we can’t always avoid switch statements, but we can make sure that each switch statement is buried in a low-level class and is never repeated. We do this, of course, with polymorphism.
+É difícil fazer uma pequena declaração switch. 6 Mesmo uma instrução switch com apenas dois casos é maior do que eu gostaria que um único bloco ou função fosse. Também é difícil fazer uma instrução switch que faça uma coisa. Por sua natureza, as instruções switch sempre fazem N coisas. Infelizmente, nem sempre podemos evitar as instruções switch, mas podemos garantir que cada instrução switch seja ocultada em uma classe de baixo nível e nunca seja repetida. Fazemos isso, é claro, com polimorfismo.
 
-### Use Descriptive Names
+### Use nomes descritivos
 
-> You know you are working on clean code when each routine turns out to be pretty much what you expected
+> Você sabe que está trabalhando em código limpo quando cada rotina acaba sendo exatamente o que você esperava
 
-Half the battle to achieving that principle is choosing good names for small functions that do one thing. The smaller and more focused a function is, the easier it is to choose a descriptive name.
+Metade da batalha para alcançar esse princípio é escolher bons nomes para pequenas funções que fazem uma coisa. Quanto menor e mais focada for uma função, mais fácil será escolher um nome descritivo.
 
-Don’t be afraid to make a name long. A long descriptive name is better than a short enigmatic name. A long descriptive name is better than a long descriptive comment. Use a naming convention that allows multiple words to be easily read in the function names, and then make use of those multiple words to give the function a name that says what it does.
+Não tenha medo de fazer um nome longo. Um nome longo e descritivo é melhor do que um nome curto e enigmático. Um nome descritivo longo é melhor do que um comentário descritivo longo. Use uma convenção de nomenclatura que permita que várias palavras sejam facilmente lidas nos nomes das funções e, em seguida, use essas várias palavras para dar à função um nome que diga o que ela faz.
 
-Choosing descriptive names will clarify the design of the module in your mind and help you to improve it. It is not at all uncommon that hunting for a good name results in a favorable restructuring of the code.
+A escolha de nomes descritivos esclarecerá o design do módulo em sua mente e o ajudará a melhorá-lo. Não é incomum que a busca por um bom nome resulte em uma reestruturação favorável do código.
 
-### Function arguments
+### Argumentos de função
 
-The ideal number of arguments for a function is zero (niladic). Next comes one (monadic), followed closely by two (dyadic). Three arguments (triadic) should be avoided where possible. More than three (polyadic) requires very special justification—and then shouldn’t be used anyway.
+O número ideal de argumentos para uma função é zero (niládico). Em seguida vem um (monádico), seguido de perto por dois (diádico). Três argumentos (triádicos) devem ser evitados sempre que possível. Mais de três (poliádico) requer justificativa muito especial – e então não deve ser usado de qualquer maneira.
 
-Arguments are even harder from a testing point of view. Imagine the difficulty of writing all the test cases to ensure that all the various combinations of arguments work properly. If there are no arguments, this is trivial. If there’s one argument, it’s not too hard. With two arguments the problem gets a bit more challenging. With more than two arguments, testing every combination of appropriate values can be daunting.
+Os argumentos são ainda mais difíceis do ponto de vista do teste. Imagine a dificuldade de escrever todos os casos de teste para garantir que todas as várias combinações de argumentos funcionem corretamente. Se não houver argumentos, isso é trivial. Se houver um argumento, não é muito difícil. Com dois argumentos, o problema fica um pouco mais desafiador. Com mais de dois argumentos, testar cada combinação de valores apropriados pode ser assustador.
 
-Output arguments are harder to understand than input arguments. When we read a function, we are used to the idea of information going in to the function through arguments and out through the return value. We don’t usually expect information to be going out through the arguments. So output arguments often cause us to do a double-take.
+Os argumentos de saída são mais difíceis de entender do que os argumentos de entrada. Quando lemos uma função, estamos acostumados com a ideia de que as informações entram na função por meio de argumentos e saem pelo valor de retorno. Nós não costumamos
 
-#### Common Monadic Forms
+#### 
+Formas Monádicas Comuns
 
-There are two very common reasons to pass a single argument into a function. You may be asking a question about that argument, as in `boolean fileExists(“MyFile”)` . Or you may be operating on that argument, transforming it into something else and returning it. For example, `InputStream fileOpen(“MyFile”)` transforms a file name `String` into an `InputStream` return value. These two uses are what readers expect when they see a function. You should choose names that make the distinction clear, and always use the two forms in a consistent context.
+Existem duas razões muito comuns para passar um único argumento para uma função. Você pode estar fazendo uma pergunta sobre esse argumento, como em `boolean fileExists(“MyFile”)` . Ou você pode estar operando com base nesse argumento, transformando-o em outra coisa e devolvendo-o. Por exemplo, `InputStream fileOpen(“MyFile”)` transforma um nome de arquivo `String` em um valor de retorno `InputStream`. Esses dois usos são o que os leitores esperam quando veem uma função. Você deve escolher nomes que tornem clara a distinção e sempre usar as duas formas em um contexto consistente.
 
-#### Flag Arguments
+#### Argumentos sinalizadores
 
-Flag arguments are ugly. Passing a boolean into a function is a truly terrible practice. It immediately complicates the signature of the method, loudly proclaiming that this function does more than one thing. It does one thing if the flag is `true` and another if the flag is `false`!
+Argumentos sinalizadores são feios. Passar um booleano para uma função é uma prática realmente terrível. Isso complica imediatamente a assinatura do método, proclamando em voz alta que essa função faz mais de uma coisa. Ele faz uma coisa se a flag for `true` e outra se a flag for `false`!
 
-#### Dyadic Functions
+#### Funções diádicas
 
-A function with two arguments is harder to understand than a monadic function. For example, `writeField(name)` is easier to understand than `writeField(output-Stream, name)`
+Uma função com dois argumentos é mais difícil de entender do que uma função monádica. Por exemplo, `writeField(name)` é mais fácil de entender do que `writeField(output-Stream, name)`
 
-There are times, of course, where two arguments are appropriate. For example, `Point p = new Point(0,0);` is perfectly reasonable. Cartesian points naturally take two arguments.
+Há momentos, é claro, em que dois argumentos são apropriados. Por exemplo, `Point p = new Point(0,0);` é perfeitamente razoável. Os pontos cartesianos naturalmente levam dois argumentos.
 
-Even obvious dyadic functions like assertEquals(expected, actual) are problematic. How many times have you put the actual where the expected should be? The two arguments have no natural ordering. The expected, actual ordering is a convention that requires practice to learn.
+Mesmo funções diádicas óbvias como assertEquals(esperado, real) são problemáticas. Quantas vezes você colocou o real onde deveria estar o esperado? Os dois argumentos não têm ordem natural. A ordem esperada e real é uma convenção que requer prática para aprender.
 
-Dyads aren’t evil, and you will certainly have to write them. However, you should be aware that they come at a cost and should take advantage of what mechanims may be available to you to convert them into monads. For example, you might make the writeField method a member of outputStream so that you can say outputStream. writeField(name) . Or you might make the outputStream a member variable of the current class so that you don’t have to pass it. Or you might extract a new class like FieldWriter that takes the outputStream in its constructor and has a write method.
+Díades não são más, e você certamente terá que escrevê-las. No entanto, você deve estar ciente de que eles têm um custo e devem aproveitar os mecanismos disponíveis para convertê-los em mônadas. Por exemplo, você pode tornar o método writeField um membro de outputStream para poder dizer outputStream. escrevaCampo(nome) . Ou você pode tornar o outputStream uma variável de membro da classe atual para que não precise transmiti-lo. Ou você pode extrair uma nova classe como FieldWriter que usa o outputStream em seu construtor e tem um método de gravação.
 
-#### Triads
+#### Tríades
 
-Functions that take three arguments are significantly harder to understand than dyads. The issues of ordering, pausing, and ignoring are more than doubled. I suggest you think very carefully before creating a triad.
+Funções que levam três argumentos são significativamente mais difíceis de entender do que díades. Os problemas de ordenar, pausar e ignorar são mais do que duplicados. Sugiro que pense bem antes de criar uma tríade.
 
-#### Argument Objects
+#### Objetos de Argumento
+
 
 Compare:
 
@@ -371,35 +373,35 @@ vs
 Circle makeCircle(Point center, double radius);
 ```
 
-#### Verbs and Keywords
+#### Verbos e palavras-chave
 
-Choosing good names for a function can go a long way toward explaining the intent of the function and the order and intent of the arguments. In the case of a monad, the function and argument should form a very nice verb/noun pair. For example, `write(name)` is very evocative. Whatever this “name” thing is, it is being “written.” An even better name might be `writeField(name)` , which tells us that the "name" thing is a "field".
+Escolher bons nomes para uma função pode ajudar muito a explicar a intenção da função e a ordem e intenção dos argumentos. No caso de uma mônada, a função e o argumento devem formar um belo par verbo/substantivo. Por exemplo, `write(name)` é muito sugestivo. Qualquer que seja essa coisa de “nome”, ela está sendo “escrita”. Um nome ainda melhor pode ser `writeField(name)` , que nos diz que o "nome" é um "campo".
 
-This last is an example of the keyword form of a function name. Using this form we encode the names of the arguments into the function name. For example, `assertEquals` might be better written as `assertExpectedEqualsActual(expected, actual)`. This strongly mitigates the problem of having to remember the ordering of the arguments.
+Este último é um exemplo da forma de palavra-chave de um nome de função. Usando esta forma, codificamos os nomes dos argumentos no nome da função. Por exemplo, `assertEquals` pode ser melhor escrito como `assertExpectedEqualsActual(expected, actual)`. Isso atenua fortemente o problema de ter que lembrar a ordem dos argumentos.
 
-### Output Arguments
+### Argumentos de saída
 
-In general output arguments should be avoided. If your function must change the state of something, have it change the state of its owning object.
+Em geral, argumentos de saída devem ser evitados. Se sua função precisar alterar o estado de algo, faça com que ela altere o estado de seu próprio objeto.
 
-### Command Query Separation
+### Separação de consulta de comando
 
-Functions should either do something or answer something, but not both. Either your function should change the state of an object, or it should return some information about that object. Doing both often leads to confusion.
+As funções devem fazer algo ou responder a algo, mas não ambos. Sua função deve alterar o estado de um objeto ou deve retornar algumas informações sobre esse objeto. Fazer as duas coisas geralmente leva à confusão.
 
-### Prefer Exceptions to Returning Error Codes
+### Prefira Exceções a Retornar Códigos de Erro
 
-Returning error codes from command functions is a subtle violation of command query separation.
+Retornar códigos de erro de funções de comando é uma violação sutil da separação de consulta de comando.
 
-### Don't Repeat Yourself
+### Não se repita
 
-Duplication may be the root of all evil in software. Many principles and practices have been created for the purpose of controlling or eliminating it.
+A duplicação pode ser a raiz de todos os males do software. Muitos princípios e práticas foram criados com o objetivo de controlá-lo ou eliminá-lo.
 
-### Structured Programming
+### Programação estruturada
 
-Some programmers follow Edsger Dijkstra’s rules of structured programming. Dijkstra said that every function, and every block within a function, should have one entry and one exit. Following these rules means that there should only be one return statement in a function, no `break` or `continue` statements in a loop, and never, _ever_, any `goto` statements.
+Alguns programadores seguem as regras de programação estruturada de Edsger Dijkstra. Dijkstra disse que toda função, e todo bloco dentro de uma função, deveria ter uma entrada e uma saída. Seguir essas regras significa que deve haver apenas uma instrução return em uma função, nenhuma instrução `break` ou `continue` em um loop e nunca, _ever_, nenhuma instrução `goto`.
 
-While we are sympathetic to the goals and disciplines of structured programming, those rules serve little benefit when functions are very small. It is only in larger functions that such rules provide significant benefit.
+Embora simpatizemos com os objetivos e disciplinas da programação estruturada, essas regras trazem poucos benefícios quando as funções são muito pequenas. É apenas em funções maiores que tais regras fornecem benefícios significativos.
 
-So if you keep your functions small, then the occasional multiple `return` , `break` , or `continue` statement does no harm and can sometimes even be more expressive than the single-entry, single-exit rule. On the other hand, `goto` only makes sense in large functions, so it should be avoided
+Portanto, se você mantiver suas funções pequenas, as declarações múltiplas ocasionais `return`, `break` ou `continue` não causam danos e às vezes podem até ser mais expressivas do que a regra de entrada única e saída única. Por outro lado, `goto` só faz sentido em funções grandes, por isso deve ser evitado.
 
 <a name="chapter4">
 <h1>Chapter 4 -  Comments</h1>
