@@ -404,52 +404,54 @@ Embora simpatizemos com os objetivos e disciplinas da programação estruturada,
 Portanto, se você mantiver suas funções pequenas, as declarações múltiplas ocasionais `return`, `break` ou `continue` não causam danos e às vezes podem até ser mais expressivas do que a regra de entrada única e saída única. Por outro lado, `goto` só faz sentido em funções grandes, por isso deve ser evitado.
 
 <a name="chapter4">
-<h1>Chapter 4 -  Comments</h1>
+<h1>Capítulo 4 - Comentários</h1>
 </a>
 
-Nothing can be quite so helpful as a well-placed comment. Nothing can clutter up a module more than frivolous dogmatic comments. Nothing can be quite so damaging as an old comment that propagates lies and misinformation.
+Nada pode ser tão útil quanto um comentário bem colocado. Nada pode tornar um módulo mais confuso do que comentários desnecessários e inflexíveis. Nada pode ser tão prejudicial quanto um comentário antigo que propaga mentiras e informações equivocadas.
 
-If our programming languages were expressive enough, or if we had the talent to subtly wield those languages to express our intent, we would not need comments very much—perhaps not at all.
+Se nossas linguagens de programação fossem expressivas o suficiente, ou se tivéssemos talento para utilizar essas linguagens de forma sutil para expressar nossa intenção, não precisaríamos de comentários com tanta frequência - talvez nem precisássemos deles.
 
-### Comments Do Not Make Up for Bad Code
+### Comentários Não Compensam Código Ruim
 
-Clear and expressive code with few comments is far superior to cluttered and complex code with lots of comments. Rather than spend your time writing the comments that explain the mess you’ve made, spend it cleaning that mess.
+Código claro e expressivo, com poucos comentários, é muito superior a um código complexo e confuso, com muitos comentários. Em vez de gastar seu tempo escrevendo comentários que explicam a bagunça que você fez, gaste-o limpando essa bagunça.
 
-### Explain Yourself in Code
+### Explique-se através do Código
 
 ```java
-// Check to see if the employee is eligible for full benefits
-if ((employee.flags & HOURLY_FLAG) && (employee.age > 65))
+// Verifiqua se o funcionário possui direito a benefícios completos
+if ((funcionario.flags & BANDEIRA_HORARIA) && (funcionario.idade > 65))
 ```
 
 vs
 
 ```java
-if (employee.isEligibleForFullBenefits())
+if (funcionario.temDireitoAosBeneficiosCompletos())
 ```
 
-### Good Comments
+O primeiro trecho de código é menos claro e mais difícil de entender, pois requer que o leitor entenda a lógica por trás dos valores das bandeiras e da idade do funcionário para determinar se ele é elegível para benefícios completos. Já o segundo trecho é muito mais claro e autoexplicativo, pois utiliza um método descritivo e bem nomeado para verificar a elegibilidade do funcionário.
 
-Some comments are necessary or beneficial. However the only truly good comment is the comment you found a way not to write.
+### Bons Comentários
 
-#### Legal Comments
+Alguns comentários são necessários ou benéficos. No entanto, o único comentário perfeito é aquele que você não escreve.
 
-Sometimes our corporate coding standards force us to write certain comments for legal reasons. For example, copyright and authorship statements are necessary and reasonable things to put into a comment at the start of each source file.
+#### Comentários Legais
 
-#### Informative Comments
+Às vezes, nossos padrões corporativos de codificação nos obrigam a escrever determinados comentários por motivos legais. Por exemplo, declarações de direitos autorais e autoria são coisas necessárias e razoáveis a serem incluídas em um comentário no início de cada arquivo de origem.
 
-It is sometimes useful to provide basic information with a comment. For example, consider this comment that explains the return value of an abstract method:
+#### Comentários Informativos
+
+Às vezes, é útil fornecer informações básicas com um comentário. Por exemplo, considere este comentário que explica o valor de retorno de um método abstrato:
 
 ```java
-// Returns an instance of the Responder being tested.
+// Retorna uma instância do Responder sendo testado.
 protected abstract Responder responderInstance();
 ```
 
-A comment like this can sometimes be useful, but it is better to use the name of the function to convey the information where possible. For example, in this case the comment could be made redundant by renaming the function: `responderBeingTested`.
+Um comentário como este pode ser útil em alguns casos, mas é melhor usar o nome da função para transmitir as informações, sempre que possível. Por exemplo, neste caso, o comentário poderia ser redundante se a função fosse renomeada para responderSendoTestado.
 
-#### Explanation of Intent
+#### Explicação da Intenção
 
-Sometimes a comment goes beyond just useful information about the implementation and provides the intent behind a decision. Example:
+Às vezes, um comentário vai além de informações úteis sobre a implementação e fornece a intenção por trás de uma decisão. Exemplo:
 
 ```java
 public int compareTo(Object o)
@@ -457,238 +459,236 @@ public int compareTo(Object o)
   if(o instanceof WikiPagePath)
   {
     WikiPagePath p = (WikiPagePath) o;
-    String compressedName = StringUtil.join(names, "");
-    String compressedArgumentName = StringUtil.join(p.names, "");
-    return compressedName.compareTo(compressedArgumentName);
+    String nomeComprimido = StringUtil.join(nomes, "");
+    String nomeComprimidoArgumento = StringUtil.join(p.nomes, "");
+    return nomeComprimido.compareTo(nomeComprimidoArgumento);
   }
-  return 1; // we are greater because we are the right type.
+  return 1; // somos maiores porque somos do tipo correto.
 }
 ```
 
-#### Clarification
+#### Esclarecimento
 
-Sometimes it is just helpful to translate the meaning of some obscure argument or return value into something that's readable. In general it is better to find a way to make that argument or return value clear in its own right; but when its part of the standard library, or in code that you cannot alter, then a helpful clarifying comment can be useful.
+Às vezes é útil traduzir o significado de algum argumento estranho ou valor de retorno para algo que seja legível. Em geral, é melhor encontrar uma maneira de deixar claro esse argumento ou valor de retorno por conta própria; mas quando ele faz parte da biblioteca padrão ou de um código que você não pode alterar, um comentário esclarecedor pode ser útil.
 
-#### Warning of concequences
+#### Aviso sobre consequências
 
 Sometimes it is useful to warn other programmers about certain consequences.
 
 ```java
-// Don't run unless you
-// have some time to kill.
-public void _testWithReallyBigFile() {
-  writeLinesToFile(10000000);
-  response.setBody(testFile);
-  response.readyToSend(this);
-  String responseString = output.toString();
-  assertSubString("Content-Length: 1000000000", responseString);
-  assertTrue(bytesSent > 1000000000);
+// Não execute a menos que você tenha algum tempo livre para gastar.
+public void _testComArquivoMuitoGrande() {
+  escreverLinhasEmArquivo(10000000);
+  resposta.setCorpo(arquivoTeste);
+  resposta.prontoParaEnviar(this);
+  String respostaString = saida.toString();
+  assertSubString("Content-Length: 1000000000", respostaString);
+  assertTrue(bytesEnviados > 1000000000);
 }
 ```
 
-#### TODO Comments
+#### Comentários TODO
 
-It is sometimes reasonable to leave “To do” notes in the form of //TODO comments. In the
-following case, the TODO comment explains why the function has a degenerate implementation and what that function's future should be.
+Às vezes é razoável deixar notas de "A fazer" na forma de comentários TODO. No caso a seguir, o comentário TODO explica por que a função tem uma implementação degenerada e qual deve ser o futuro dessa função.
 
 ```java
-//TODO-MdM these are not needed
-// We expect this to go away when we do the checkout model
-protected VersionInfo makeVersion() throws Exception {
+// TODO-MdM estes não são necessários
+// Esperamos que isso desapareça quando fizermos o modelo de checkout
+protected VersionInfo criaVersao() throws Exception {
   return null;
 }
 ```
 
-TODOs are jobs that the programmer thinks should be done, but for some reason can’t do at the moment. It might be a reminder to delete a deprecated feature or a plea for someone else to look at a problem. It might be a request for someone else to think of a better name or a reminder to make a change that is dependent on a planned event. Whatever else a TODO might be, it is not an excuse to leave bad code in the system.
+TODOs são tarefas que o programador acha que devem ser feitas, mas por algum motivo não pode fazer no momento. Pode ser um lembrete para excluir uma funcionalidade obsoleta ou um pedido para que outra pessoa olhe para um problema. Pode ser um pedido para outra pessoa pensar em um nome melhor ou um lembrete para fazer uma mudança que depende de um evento planejado. O que quer que seja um TODO, não é uma desculpa para deixar código ruim no sistema.
 
-#### Amplification
+#### Ampliação
 
-A comment may be used to amplify the importance of something that may otherwise seem inconsequential.
+Um comentário pode ser usado para dar ênfase a algo que, de outra forma, pode parecer inconsequente.
 
 ```java
-String listItemContent = match.group(3).trim();
-// the trim is real important. It removes the starting
-// spaces that could cause the item to be recognized
-// as another list.
-new ListItemWidget(this, listItemContent, this.level + 1);
+String conteudoItemLista = match.group(3).trim();
+// O trim é realmente importante. Ele remove os espaços iniciais
+// que poderiam fazer o item ser reconhecido
+// como outra lista.
+new ListItemWidget(this, conteudoItemLista, this.level + 1);
 return buildList(text.substring(match.end()));
 ```
 
-#### Javadocs in Public APIs
+#### Javadocs em APIs públicas
 
-There is nothing quite so helpful and satisfying as a well-described public API. The javadocs for the standard Java library are a case in point. It would be difficult, at best, to write Java programs without them.
+Não há nada tão útil e satisfatório quanto uma API pública bem descrita. A documentação do javadoc para a biblioteca Java padrão é um exemplo disso. Seria difícil, na melhor das hipóteses, escrever programas Java sem eles.
 
-### Bad Comments
+### Comentários ruins
 
-Most comments fall into this category. Usually they are crutches or excuses for poor code or justifications for insufficient decisions, amounting to little more than the programmer talking to himself.
+A maioria dos comentários se enquadra nessa categoria. Geralmente são muletas ou desculpas para código ruim ou justificativas para decisões insuficientes, que não passam de um programador falando consigo mesmo.
 
-#### Mumbling
+#### Murmúrios
 
-Plopping in a comment just because you feel you should or because the process requires it, is a hack. If you decide to write a comment, then spend the time necessary to make sure it is the best comment you can write. Example:
+Adicionar um comentário só porque você sente que deveria ou porque o processo o exige, é um "hack". Se você decidir escrever um comentário, dedique o tempo necessário para garantir que seja o melhor comentário que você possa escrever. Exemplo:
 
 ```java
-public void loadProperties() {
+public void carregarPropriedades() {
 
   try {
-    String propertiesPath = propertiesLocation + "/" + PROPERTIES_FILE;
-    FileInputStream propertiesStream = new FileInputStream(propertiesPath);
-    loadedProperties.load(propertiesStream);
+    String caminhoPropriedades = propertiesLocation + "/" + PROPERTIES_FILE;
+    FileInputStream fluxoPropriedades = new FileInputStream(caminhoPropriedades);
+    propriedadesCarregadas.load(fluxoPropriedades);
   }
   catch(IOException e) {
-    // No properties files means all defaults are loaded
+    // Se não houver arquivo de propriedades, todas as configurações padrão serão carregadas
   }
 }
 ```
 
-What does that comment in the catch block mean? Clearly meant something to the author, but the meaning not come though all that well. Apparently, if we get an `IOException`, it means that there was no properties file; and in that case all the defaults are loaded. But who loads all the defaults?
+O que significa aquele comentário no bloco catch? Claramente, isso significava algo para o autor, mas o significado não é tão claro. Aparentemente, se recebermos uma IOException, significa que não havia um arquivo de propriedades e, nesse caso, todos os valores padrão são carregados. Mas quem carrega todos os valores padrão? O comentário é confuso e não acrescenta valor ao código. Ele é um exemplo de "murmúrio" (mumbling), que é um tipo de comentário ruim que é confuso, vago ou incompreensível.
 
-#### Redundant Comments
+#### Comentários Redundantes
 
 ```java
-// Utility method that returns when this.closed is true. Throws an exception
-// if the timeout is reached.
-public synchronized void waitForClose(final long timeoutMillis) throws Exception {
+// Método utilitário que retorna quando this.closed é verdadeiro. Lança uma exceção
+// se o tempo limite for atingido.
+public synchronized void esperarFechar(final long timeoutMillis) throws Exception {
   if(!closed) {
     wait(timeoutMillis);
     if(!closed)
-      throw new Exception("MockResponseSender could not be closed");
+      throw new Exception("MockResponseSender não pôde ser fechado");
   }
 }
 ```
 
-What purpose does this comment serve? It’s certainly not more informative than the code. It does not justify the code, or provide intent or rationale. It is not easier to read than the code. Indeed, it is less precise than the code and entices the reader to accept that lack of precision in lieu of true understanding.
+Qual é o propósito deste comentário? Certamente não é mais informativo do que o código. Ele não justifica o código ou fornece intenção. Não é mais fácil de ler do que o código. Na verdade, é menos preciso do que o código e incentiva o leitor a aceitar essa falta de precisão em vez de uma verdadeira compreensão.
 
-#### Misleading comments
+#### Comentários Enganosos
 
-Sometimes, with all the best intentions, a programmer makes a statement in his comments that isn't precise enough to be accurate. Consider for another moment the example of the previous section. The method does not return when `this.closed` becomes `true`. It returns if `this.closed` is `true`; otherwise, it waits for a blind time-out and then throws an exception if `this.closed` is still not true.
+Às vezes, com as melhores intenções, um programador faz uma declaração em seus comentários que não é precisa o suficiente para ser precisa. Considere por mais um momento o exemplo da seção anterior. O método não retorna quando this.closed se torna true. Ele retorna se this.closed é true; caso contrário, ele espera por um tempo limite cego e depois lança uma exceção se this.closed ainda não é verdadeiro.
 
-#### Mandated Comments
+#### Comentários Obrigatórios
 
-It is just plain silly to have a rule that says that every function must have a javadoc, or every variable must have a comment. Comments like this just clutter up the code, propagate lies, and lend to general confusion and disorganization.
+É simplesmente bobo ter uma regra que diz que cada função deve ter um javadoc ou cada variável deve ter um comentário. Comentários assim só tornam o código confuso, propagam mentiras e contribuem para a confusão e desorganização em geral.
 
 ```java
 /**
 *
-* @param title The title of the CD
-* @param author The author of the CD
-* @param tracks The number of tracks on the CD
-* @param durationInMinutes The duration of the CD in minutes
+* @param titulo O título do CD
+* @param autor O autor do CD
+* @param faixas O número de faixas no CD
+* @param duracaoEmMinutos A duração do CD em minutos
 */
-public void addCD(String title, String author, int tracks, int durationInMinutes) {
+public void adicionarCD(String titulo, String autor, int faixas, int duracaoEmMinutos) {
   CD cd = new CD();
-  cd.title = title;
-  cd.author = author;
-  cd.tracks = tracks;
-  cd.duration = duration;
-  cdList.add(cd);
+  cd.titulo = titulo;
+  cd.autor = autor;
+  cd.faixas = faixas;
+  cd.duracao = duracaoEmMinutos;
+  listaCDs.add(cd);
 }
 ```
 
-#### Journal Comments
+#### Comentários "Log Change"
 
-Sometimes people add a comment to the start of a module every time they edit it. Example:
+Às vezes, as pessoas adicionam um comentário ao início de um módulo toda vez que o editam. Exemplo:
 
 ```java
-* Changes (from 11-Oct-2001)
+* Alterações (a partir de 11-Out-2001)
 * --------------------------
-* 11-Oct-2001 : Re-organised the class and moved it to new package com.jrefinery.date (DG);
-* 05-Nov-2001 : Added a getDescription() method, and eliminated NotableDate class (DG);
-* 12-Nov-2001 : IBD requires setDescription() method, now that NotableDate class is gone (DG); Changed getPreviousDayOfWeek(),
-getFollowingDayOfWeek() and getNearestDayOfWeek() to correct bugs (DG);
-* 05-Dec-2001 : Fixed bug in SpreadsheetDate class (DG);
+* 11-Out-2001: Reorganizou a classe e a moveu para o novo pacote com.jrefinery.date (DG);
+* 05-Nov-2001: Adicionou um método getDescription() e eliminou a classe NotableDate (DG);
+* 12-Nov-2001: IBD requer o método setDescription(), agora que a classe NotableDate se foi (DG); Alterou getPreviousDayOfWeek(),
+getFollowingDayOfWeek() e getNearestDayOfWeek() para corrigir bugs (DG);
+* 05-Dez-2001: Corrigiu bug na classe SpreadsheetDate (DG);
 ```
 
-Today we have source code control systems, we don't need this type of logs.
+Hoje em dia, temos sistemas de controle de código-fonte e não precisamos desse tipo de registro.
 
-#### Noise Comments
+#### Comentários ruidosos
 
-The comments in the follow examples doesn't provides new information.
+Os comentários nos exemplos a seguir não fornecem novas informações.
 
 ```java
 /**
-* Default constructor.
+* Construtor padrão.
 */
-protected AnnualDateRule() {
+protected RegraAnual() {
 }
 ```
 
 ```java
-/** The day of the month. */
-private int dayOfMonth;
+/** O dia do mês. */
+private int diaDoMes;
 ```
 
-Javadocs comments could enter in this category. Many times they are just redundant noisy comments written out of some misplaced desire to provide documentation.
+Os comentários do Javadoc podem entrar nessa categoria. Muitas vezes, são apenas comentários ruidosos e redundantes escritos por algum desejo mal colocado de fornecer documentação.
 
-#### Don’t Use a Comment When You Can Use a Function or a Variable
+#### Não use um comentário quando puder usar uma função ou uma variável
 
-Example:
+Exemplo:
 
 ```java
-// does the module from the global list <mod> depend on the
-// subsystem we are part of?
+// o módulo da lista global <mod> depende do
+// subsistema do qual fazemos parte?
 if (smodule.getDependSubsystems().contains(subSysMod.getSubSystem()))
 ```
 
 vs
 
 ```java
-ArrayList moduleDependees = smodule.getDependSubsystems();
-String ourSubSystem = subSysMod.getSubSystem();
-if (moduleDependees.contains(ourSubSystem))
+ArrayList dependenciasDoModulo = smodule.getDependSubsystems();
+String nossoSubsistema = subSysMod.getSubSystem();
+if (dependenciasDoModulo.contains(nossoSubsistema))
 ```
 
-#### Position Markers
+#### Marcadores de posição
 
-This type of comments are noising
+Esse tipo de comentário pode gerar ruído no código.
 
 ```java
-// Actions //////////////////////////////////
+// Ações //////////////////////////////////
 ```
 
-#### Closing Brace Comments
+#### Comentários de fechamento de chaves
 
-Example:
+Exemplo:
 
 ```java
 public class wc {
   public static void main(String[] args) {
     BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-    String line;
-    int lineCount = 0;
-    int charCount = 0;
-    int wordCount = 0;
+    String linha;
+    int contLinhas  = 0;
+    int contCaracteres = 0;
+    int contPalavras = 0;
     try {
-      while ((line = in.readLine()) != null) {
-        lineCount++;
-        charCount += line.length();
-        String words[] = line.split("\\W");
-        wordCount += words.length;
+      while ((linha = in.readLine()) != null) {
+        contLinhas++;
+        contCaracteres += linha.length();
+        String words[] = linha.split("\\W");
+        contPalavras += words.length;
 
       } //while
-      System.out.println("wordCount = " + wordCount);
-      System.out.println("lineCount = " + lineCount);
-      System.out.println("charCount = " + charCount);
+      System.out.println("contPalavras = " + contPalavras);
+      System.out.println("contLinhas = " + contLinhas);
+      System.out.println("contCaracteres = " + contCaracteres);
 
     } // try
     catch (IOException e) {
-      System.err.println("Error:" + e.getMessage());
+      System.err.println("Erro:" + e.getMessage());
 
     } //catch
 
   } //main
 ```
 
-You could break the code in small functions instead to use this type of comments.
+Em vez de usar comentários de fechamento de chaves, é melhor dividir o código em funções menores e autoexplicativas. Dessa forma, o código fica mais fácil de ler e entender, sem a necessidade de usar comentários desnecessários.
 
-#### Attributions and Bylines
+#### Atribuições e Créditos
 
 Example:
 
-`/* Added by Rick */`
+`/* Adicionado por Rick */`
 
-The VCS can manage this information instead.
+O sistema de controle de versão (VCS) pode gerenciar essa informação automaticamente, portanto esse tipo de comentário é desnecessário e pode ser removido.
 
-#### Commented-Out Code
+#### Código comentado
 
 ```java
 InputStreamResponse response = new InputStreamResponse();
@@ -698,7 +698,7 @@ response.setBody(formatter.getResultStream(), formatter.getByteCount());
 // response.setContent(reader.read(formatter.getByteCount()));
 ```
 
-If you don't need anymore, please delete it, you can back later with your VCS if you need it again.
+Se você não precisa mais disso, por favor delete-o, você pode recuperá-lo posteriormente com o seu VCS se precisar novamente.
 
 #### HTML Comments
 
@@ -706,8 +706,8 @@ HTML in source code comments is an abomination, as you can tell by reading the c
 
 ```java
 /**
-* Task to run fit tests.
-* This task runs fitnesse tests and publishes the results.
+* Tarefa para executar testes Fit.
+* Esta tarefa executa testes Fitnesse e publica os resultados.
 * <p/>
 * <pre>
 * Usage:
@@ -728,25 +728,25 @@ HTML in source code comments is an abomination, as you can tell by reading the c
 */
 ```
 
-#### Nonlocal Information
+#### Informações não locais
 
-If you must write a comment, then make sure it describes the code it appears near. Don't offer systemwide information in the context of a local comment.
+Se você precisar escrever um comentário, certifique-se de que ele descreva o código próximo a ele. Não ofereça informações de todo o sistema no contexto de um comentário local.
 
-#### Too Much Information
+#### Informações demais
 
-Don't put interesting historical discussions or irrelevant descriptions of details into your comments.
+Não coloque discussões históricas interessantes ou descrições irrelevantes de detalhes em seus comentários.
 
-#### Inobvious Connection
+#### Conexão não óbvia
 
-The connection between a comment and the code it describes should be obvious. If you are going to the trouble to write a comment, then at least you'd like the reader to be able to look at the comment and the code and understand what the comment is talking about
+A conexão entre um comentário e o código que ele descreve deve ser óbvia. Se você se der ao trabalho de escrever um comentário, pelo menos o leitor deve olhar para o comentário, comparar com o código e entender do que o comentário está falando.
 
-#### Function Headers
+#### Cabeçalhos de função
 
-Short functions don’t need much description. A well-chosen name for a small function that does one thing is usually better than a comment header.
+Funções curtas não precisam de muita descrição. Um nome bem escolhido para uma pequena função que faz uma coisa geralmente é melhor do que um cabeçalho de comentário.
 
-#### Javadocs in Nonpublic Code
+#### Javadocs em código não público
 
-Javadocs are for public APIs, in nonpublic code could be a distraction more than a help.
+Javadocs são para APIs públicas, em código não público podem ser uma distração mais do que uma ajuda.
 
 <a name="chapter5">
 <h1>Chapter 5 -  Formatting</h1>
