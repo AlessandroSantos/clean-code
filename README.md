@@ -5,7 +5,7 @@
 - [Capítulo 1 - Código Limpo](#chapter1)
 - [Capítulo 2 - Nomes Significativos](#chapter2)
 - [Capítulo 3 - Funções](#chapter3)
-- [Chapter 4 - Comments](#chapter4)
+- [Chapter 4 - Comentários](#chapter4)
 - [Chapter 5 - Formatting](#chapter5)
 - [Chapter 6 - Objects and Data Structures](#chapter6)
 - [Chapter 7 - Error Handling](#chapter7)
