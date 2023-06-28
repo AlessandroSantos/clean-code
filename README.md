@@ -5,7 +5,7 @@
 - [Capítulo 1 - Código Limpo](#chapter1)
 - [Capítulo 2 - Nomes Significativos](#chapter2)
 - [Capítulo 3 - Funções](#chapter3)
-- [Chapter 4 - Comentários](#chapter4)
+- [Chapter 4 - Comments](#chapter4)
 - [Chapter 5 - Formatting](#chapter5)
 - [Chapter 6 - Objects and Data Structures](#chapter6)
 - [Chapter 7 - Error Handling](#chapter7)
@@ -915,6 +915,169 @@ The indentation it's important because help us to have a visible hierarchy and w
 Every programmer has his own favorite formatting rules, but if he works in a team, then the team rules.
 
 A team of developers should agree upon a single formatting style, and then every member of that team should use that style. We want the software to have a consistent style. We don't want it to appear to have been written by a bunch of disagreeing individuals.
+
+<a name="chapter5">
+<h1>Capítulo 5 - Formatação</h1>
+
+A formatação do código é importante. É tão importante que não pode ser ignorada e também não deve ser tratada de forma excessiva. A formatação do código está relacionada à comunicação, e a comunicação é a principal tarefa do desenvolvedor profissional.
+
+Formatação Vertical
+
+Abertura Vertical entre Conceitos
+
+Esse conceito consiste em como você separa os conceitos no seu código. No exemplo a seguir, podemos apreciá-lo.
+
+`package fitnesse.wikitext.widgets;`
+
+`import java.util.regex.*;`
+
+`public class BoldWidget extends ParentWidget {
+public static final String REGEXP = "'''.+?'''";
+private static final Pattern pattern = Pattern.compile("'''(.+?)'''",
+Pattern.MULTILINE + Pattern.DOTALL
+);`
+
+`public BoldWidget(ParentWidget parent, String text) throws Exception {
+super(parent);
+Matcher match = pattern.matcher(text);
+match.find();
+addChildWidgets(match.group(1));
+}`
+
+
+`public String render() throws Exception {
+StringBuffer html = new StringBuffer("<b>");
+html.append(childHtml()).append("</b>");
+return html.toString();
+}
+}`
+
+`package fitnesse.wikitext.widgets;
+import java.util.regex.*;
+public class BoldWidget extends ParentWidget {
+public static final String REGEXP = "'''.+?'''";
+private static final Pattern pattern = Pattern.compile("'''(.+?)'''",
+Pattern.MULTILINE + Pattern.DOTALL);
+public BoldWidget(ParentWidget parent, String text) throws Exception {
+super(parent);
+Matcher match = pattern.matcher(text); match.find(); addChildWidgets(match.group(1));
+}
+public String render() throws Exception { StringBuffer html = new StringBuffer("<b>"); html.append(childHtml()).append("</b>"); return html.toString();
+}
+}
+Como você pode ver, a legibilidade do primeiro exemplo é maior do que a do segundo.`
+
+**Densidade Vertical**
+
+A densidade vertical implica em uma associação próxima. Portanto, linhas de código que estão intimamente relacionadas devem parecer densas verticalmente. Verifique o exemplo a seguir:
+
+`public class ReporterConfig {`
+
+```
+/**
+ * The class name of the reporter listener */
+private String m_className;
+
+/**
+ * The properties of the reporter listener */
+private List<Property> m_properties = new ArrayList<Property>();
+
+public void addProperty(Property property) { m_properties.add(property);
+}
+
+```
+
+`public class ReporterConfig {
+private String m_className;
+private List<Property> m_properties = new ArrayList<Property>();`
+
+`public void addProperty(Property property) {
+m_properties.add(property);
+}
+}`
+
+O segundo código é muito mais fácil de ler. Ele se encaixa em uma "visualização completa".
+
+**Distância Vertical**
+
+Declarações de Variáveis. As variáveis devem ser declaradas o mais próximo possível de seu uso. Como nossas funções são muito curtas, as variáveis locais devem aparecer no topo de cada função.
+
+Por outro lado, as variáveis de instância devem ser declaradas no topo da classe. Isso não deve aumentar a distância vertical dessas variáveis, porque em uma classe bem projetada, elas são usadas por muitos, senão por todos, os métodos da classe.
+
+Houve muitos debates sobre onde as variáveis de instância devem ser colocadas. Em C++, costumávamos seguir a chamada regra da tesoura, que colocava todas as variáveis de instância no final. A convenção comum em Java, no entanto, é colocá-las todas no topo da classe. Não vejo motivo para seguir qualquer outra convenção. O importante é que as variáveis de instância sejam declaradas em um local bem conhecido. Todos devem saber onde ir para ver as declarações.
+
+
+**Funções Dependentes.**
+
+ Se uma função chama outra, elas devem estar verticalmente próximas, e a função chamadora deve estar acima da função chamada, se possível. Isso dá ao programa um fluxo natural. Se a convenção for seguida de forma confiável, os leitores poderão confiar que as definições das funções virão logo após seu uso.
+
+
+**Afinidade Conceitual.** 
+
+Certas partes do código desejam estar próximas de outras partes. Elas têm uma certa afinidade conceitual. Quanto maior essa afinidade, menor deve ser a distância vertical entre elas.
+
+
+**Ordenação Vertical**
+
+Em geral, queremos que as dependências de chamadas de função apontem para baixo. Ou seja, uma função que é chamada deve estar abaixo da função que faz a chamada. Isso cria um fluxo agradável no módulo de código-fonte, indo do alto nível para o baixo nível. (Isso é exatamente o oposto de linguagens como Pascal, C e C++, que exigem que as funções sejam definidas, ou pelo menos declaradas, antes de serem usadas).
+
+
+**Formatação Horizontal**
+
+Espaçamento Horizontal e Densidade
+Usamos espaços horizontais para associar coisas que estão fortemente relacionadas e dissociar coisas que estão mais fracamente relacionadas. Exemplo:
+
+`private void measureLine(String line) {
+lineCount++;
+int lineSize = line.length();
+totalChars += lineSize;
+lineWidthHistogram.addLine(lineSize, lineCount);
+recordWidestLine(lineSize);
+}`
+
+As declarações de atribuição têm dois elementos distintos e principais: o lado esquerdo e o lado direito. Os espaços tornam essa separação óbvia.
+
+
+**Alinhamento Horizontal**
+
+`public class Example implements Base
+{
+private   Socket      socket;
+private   inputStream input;
+protected long        requestProgress;`
+
+`public Expediter(Socket      s,
+inputStream input) {
+this.socket =     s;
+this.input  =     input;
+}
+}`
+
+Nas linguagens modernas, esse tipo de alinhamento não é útil. O alinhamento parece enfatizar coisas erradas e desvia meu olhar da verdadeira intenção.
+
+`public class Example implements Base
+{
+private Socket socket;
+private inputStream input;
+protected long requestProgress;`
+
+`public Expediter(Socket s, inputStream input) {
+this.socket = s;
+this.input = input;
+}
+}`
+
+Esta é uma abordagem melhor.
+
+**Indentação**
+
+A indentação é importante porque nos ajuda a ter uma hierarquia visível e blocos bem definidos.
+
+Regras da Equipe
+
+Cada programador tem suas próprias regras de formatação favoritas, mas se ele trabalha em equipe, então são as regras da equipe.
+
+Uma equipe de desenvolvedores deve concordar com um único estilo de formatação e, em seguida, cada membro da equipe deve usar esse estilo. Queremos que o software tenha um estilo consistente. Não queremos que pareça ter sido escrito por um grupo de indivíduos discordantes.
 
 <a name="chapter6">
 <h1>Chapter 6 -  Objects and Data Structures</h1>
