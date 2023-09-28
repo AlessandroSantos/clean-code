@@ -917,114 +917,111 @@ Every programmer has his own favorite formatting rules, but if he works in a tea
 A team of developers should agree upon a single formatting style, and then every member of that team should use that style. We want the software to have a consistent style. We don't want it to appear to have been written by a bunch of disagreeing individuals.
 
 <a name="chapter6">
-<h1>Chapter 6 -  Objects and Data Structures</h1>
+<h1>Capitulo 6 -  Objetos e Estrutura de Dados</h1>
 </a>
 
-### Data Abstraction
+### Abstração de dados
+Ocultar a implementação não é somente uma questão de colocar uma camada de funções entre as variáveis. Ocultar a implementação é sobre abstrações! Uma classe simplesmente não passa suas variáveis através de métodos de leitura e escrita. Em vez disso, expõe interfaces abstratas que permitem aos usuários manipular a essência dos dados, sem precisar conhecer a implementação.
 
-Hiding implementation is not just a matter of putting a layer of functions between the variables. Hiding implementation is about abstractions! A class does not simply push its variables out through getters and setters. Rather it exposes abstract interfaces that allow its users to manipulate the essence of the data, without having to know its implementation.
+### Antissimetria data/objeto
+Esses dois exemplos mostram a diferença entre objetos e estruturas de dados. Os objetos escondem seus dados através de abstrações e expõem funções que operam nesses dados. As estruturas de dados expõem seus dados e não possuem funções significativas.
 
-### Data/Object Anti-Symmetry
-
-These two examples show the difference between objects and data structures. Objects hide their data behind abstractions and expose functions that operate on that data. Data structure expose their data and have no meaningful functions.
-
-**Procedural Shape**
+**Forma procedural**
 
 ```java
-public class Square {
-  public Point topLeft;
-  public double side;
+public class Quadrado {
+  public Point topoEsquerdo;
+  public double lado;
 }
 
-public class Rectangle {
-  public Point topLeft;
-  public double height;
-  public double width;
+public class Retangulo {
+  public Point topoEsquerdo;
+  public double altura;
+  public double largura;
 }
 
-public class Circle {
-  public Point center;
-  public double radius;
+public class Circulo {
+  public Point centro;
+  public double raio;
 }
 
-public class Geometry {
+public class Geometria {
   public final double PI = 3.141592653589793;
 
-  public double area(Object shape) throws NoSuchShapeException {
-    if (shape instanceof Square) {
-      Square s = (Square)shape;
-      return s.side * s.side;
+  public double area(Object forma) throws FormaInexistenteException {
+    if (forma instanceof Quadrado) {
+      Quadrado s = (Quadrado)forma;
+      return s.lado * s.lado;
     }
-    else if (shape instanceof Rectangle) { Rectangle r = (Rectangle)shape; return r.height * r.width;
+    else if (forma instanceof Retangulo) { Retangulo r = (Retangulo)forma; return r.altura * r.largura;
     }
-    else if (shape instanceof Circle) {
-      Circle c = (Circle)shape;
-      return PI * c.radius * c.radius;
+    else if (forma instanceof Circulo) {
+      Circulo c = (Circulo)forma;
+      return PI * c.raio * c.raio;
     }
-    throw new NoSuchShapeException();
+    throw new FormaInexistenteException();
   }
 }
 ```
 
-**Polymorphic Shape**
+**Forma polimórfica**
 
 ```java
-public class Square implements Shape {
-  private Point topLeft;
-  private double side;
+public class Quadrado implements Forma {
+  private Point topoEsquerdo;
+  private double lado;
 
   public double area() {
-    return side*side;
+    return lado*lado;
   }
 }
 
-public class Rectangle implements Shape {
-  private Point topLeft;
-  private double height;
-  private double width;
+public class Retangulo implements Forma {
+  private Point topoEsquerdo;
+  private double altura;
+  private double largura;
 
   public double area() {
-    return height * width;
+    return altura * largura;
   }
 }
 
-public class Circle implements Shape {
-  private Point center;
-  private double radius;
+public class Circulo implements Forma {
+  private Point centro;
+  private double raio;
   public final double PI = 3.141592653589793;
 
   public double area() {
-    return PI * radius * radius;
+    return PI * raio * raio;
   }
 }
 ```
+Novamente, vemos a natureza complementar dessas duas definições; elas são praticamente opostas! Isso revela a dicotomia fundamental entre objetos e estruturas de dados:
 
-Again, we see the complimentary nature of these two definitions; they are virtual opposites! This exposes the fundamental dichotomy between objects and data structures:
+> Código procedural (código usando estruturas de dados) torna mais fácil adicionar novas funções sem alterar as estruturas de dados existentes. Por outro lado, código orientado a objetos (OO) torna mais fácil adicionar novas classes sem alterar as funções existentes.
 
-> Procedural code (code using data structures) makes it easy to add new functions without changing the existing data structures. OO code, on the other hand, makes it easy to add new classes without changing existing functions.
+O complemento também é verdadeiro:
 
-The complement is also true:
+> Código procedural dificulta a adição de novas estruturas de dados, pois todas as funções devem ser alteradas. Código orientado a objetos (OO) dificulta a adição de novas funções, pois todas as classes devem ser alteradas.
 
-> Procedural code makes it hard to add new data structures because all the functions must change. OO code makes it hard to add new functions because all the classes must change.
+Programadores experientes sabem que a ideia de que tudo é um objeto é um mito. Às vezes, você realmente deseja ter estruturas de dados simples com procedimentos operando nelas.
 
-Mature programmers know that the idea that everything is an object is a myth. Sometimes you really do want simple data structures with procedures operating on them.
+### A lei de [Demeter](https://en.wikipedia.org/wiki/Law_of_Demeter)
 
-### The Law of [Demeter](https://en.wikipedia.org/wiki/Law_of_Demeter)
+Existe uma heurística bem conhecida chamada Lei de Demeter, que diz que um módulo não deve conhecer os detalhes internos dos objetos que manipula.
 
-There is a well-known heuristic called the Law of Demeter that says a module should not know about the innards of the objects it manipulates.
-
-More precisely, the Law of Demeter says that a method `f` of a class `C` should only call the methods of these:
+Mais precisamente, a Lei de Demeter diz que um método `f` de uma classe `C` deve somente chamar apenas os métodos de:
 
 - `C`
-- An object created by `f`
-- An object passed as an argument to `f`
-- An object held in an instance variable of `C`
+- Um objeto criado por `f`
+- Um objeto passado como parâmetro para `f`
+- Um objeto dentro de uma variavel de instancia `C`
 
-The method should not invoke methods on objects that are returned by any of the allowed functions. In other words, talk to friends, not to strangers.
+O método não deve invocar métodos em objetos que são retornados por qualquer uma das funções permitidas. Em outras palavras, fale apenas com amigos, não com estranhos.
 
-### Data Transfer Objects
+### Objetos de Transferência de Dados
 
-The quintessential form of a data structure is a class with public variables and no functions. This is sometimes called a data transfer object, or DTO. DTOs are very useful structures, especially when communicating with databases or parsing messages from sockets, and so on. They often become the first in a series of translation stages that convert raw data in a database into objects in the application code.
+A forma perfeita de uma estrutura de dados é uma classe com variáveis públicas e sem funções. Isso é às vezes chamado de objeto de transferência de dados, ou DTO. Os DTOs são estruturas muito úteis, especialmente para se comunicar com bancos de dados ou analisar mensagens de sockets, e assim por diante. Eles frequentemente se tornam o primeiro estágio em uma série de etapas de tradução que convertem dados brutos de um banco de dados em objetos no código do aplicativo.
 
 <a name="chapter7">
 <h1>Chapter 7 -  Error Handling</h1>
